@@ -28,8 +28,8 @@ In the original IPO algorithm, this is its strategy.
      |0|1|0| |
      |1|0|0| |
      |1|1|1| | 
-3.) The order of execution of the empty slots of the array are approached differently depending on the strategy, but for simplicity, this algorithm will execute it in
-order logically. Therefore, looking at the slot located at (4,1) of the array, this algorithm plugs in the value that will cover the most interactions needed for the
+3.) The order of execution of the empty slots of the array are approached differently depending on the strategy, but for simplicity, this algorithm will execute in
+logival order. Therefore, looking at the slot located at (4,1) of the array, this algorithm plugs in the value that will cover the most interactions needed for the
 array to become a covering array. 
      |0|0|1| |<- inserting (1) will cover the interactions (0, , ,1) and ( ,0, ,1) and ( , ,1,1)
      |0|1|0| |   inserting (0) will cover the interactions (0, , ,0) and ( ,0, ,0) and ( , ,1,0) 
