@@ -11,6 +11,8 @@ Below is in example of a covering array where k = 3, v = 2, and t = 2.
      |1|1|1|
 Every iterations or combination of the values 0 and 1 are covered between each pair of the three columns. 
 
+The Diagonal IPO implements the ideas of horizantal and vertical growth of the original IPO algorithm but implements them concurrently.
+
 Important Variables:
 k: number of columns
 v: number of values
