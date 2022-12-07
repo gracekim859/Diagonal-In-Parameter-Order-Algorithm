@@ -16,10 +16,9 @@ k: number of columns
 v: number of values
 t: strength
 
-
-     
- Repository:
- In this repository there is a Covering Array Validator, which returns true if an array is covering and false if it is not. In addition, there is an implementation of
- Diagonal IPO where it reads an array in a text file and expands it with the users input of the number of columns in the starting array along with the v and t values.
- It is important to note that both programs read from a text file with the name "test.txt" containing an array with a specific format. Please refer to the "test.txt"
- file to see this format. Lastly, the Diagonal IPO algorithm includes the covering array validator at the end to confirm that the resulting array is covering. 
+Repository:
+In this repository there is a Covering Array Validator, which returns true if an array is covering and false if it is not. In addition, there is an implementation of
+Diagonal IPO where it reads an array in a text file and expands it with the users input of the number of columns in the starting array along with the v and t values.
+It is important to note that both programs run on Python 3 and read from a text file with the name "test.txt" containing an array with a specific format. Please refer to
+the "test.txt" file to see this format. Lastly, the Diagonal IPO algorithm includes the covering array validator at the end to confirm that the resulting array is 
+covering. 
