@@ -1,1 +1,0 @@
-# Diagonal-In-Parameter-Order-Algorithm
