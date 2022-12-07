@@ -86,74 +86,120 @@ DIAGONAL IN-PARAMETER-ORDER ALGORITHM:
 The Diagonal IPO algorithm utilizes the horizontal and vertical growth aspects of the IPO but implements them concurrently. 
 This is the strategy:
 1.) begin with a covering array (using the final array from the previous example)
-     |0|0|1|1|     k = 4
-     |0|1|0|0|     v = 2
-     |1|0|0|0|     t = 2
-     |1|1|1|1|
-     |x|x|0|1|
-     |x|x|1|0| 
+     |0|0|1|  k = 3
+     |0|1|0|  v = 2
+     |1|0|0|  t = 2
+     |1|1|1|
 2.) begin horizantal growth by adding a column (array physically grows horizantally) *note that adding this column makes it insufficient to be a covering array*
-     |0|0|1|1| |
-     |0|1|0|0| |
-     |1|0|0|0| |
-     |1|1|1|1| |
-     |x|x|0|1| |
-     |x|x|1|0| |
+     |0|0|1| |
+     |0|1|0| |
+     |1|0|0| |
+     |1|1|1| | 
 3.) Similarly, the order of execution of the empty slots of the array are approached differently depending on the implementation, but for simplicity, this algorithm
-will execute it in order logically. Therefore, looking at the slot located at (5,1) of the array, this algorithm plugs in the value that will cover at least a certain percentage of the remaining uncovered interaction, for this example, this percentage will be 25% If no values fit this minimum, this slot will remain empty. 
-     Total remaining interactions: 16
-     Minimum: 4
-     |0|0|1|1| |<- inserting (1) will cover the interactions (0, , , ,1) and ( ,0, , ,1) and ( , ,1, ,1) and ( , , ,1,1) satisfying the minimum
-     |0|1|0|0| |   inserting (0) will cover the interactions (0, , , ,0) and ( ,0, , ,0) and ( , ,1, ,0) and ( , , ,1,0) satisfying the minimum
-     |1|0|0|0| |
-     |1|1|1|1| |
-     |x|x|0|1| |
-     |x|x|1|0| |
-4.) Since both values satisfy the minimum, the algorithm will randomly select a value to place in the slot. 
-     |0|0|1|1|1|
-     |0|1|0|0| |
-     |1|0|0|0| |
-     |1|1|1|1| |
-     |x|x|0|1| |
-     |x|x|1|0| |
-5.) Then it will move down to the next slot, repeating step 3, making sure to keep the same minimum percentage.
+will execute it in order logically. Therefore, looking at the slot located at (4,1) of the array, this algorithm plugs in the value that will cover at least a certain percentage of the remaining uncovered interaction, for this example, this percentage will be 25% If no values fit this minimum, this slot will remain empty. 
      Total remaining interactions: 12
-     Minimum: 3 
-     |0|0|1|1|0|
-     |0|1|0|0| |<- inserting (1) will cover the interactions ( ,1, , ,1) and ( , ,0, ,1) and ( , , ,0,1) satisfying the minimum
-     |1|0|0|0| |   inserting (0) will cover the interactions (0, , , ,0) and ( ,1, , ,0) and ( , ,0, ,0) and ( , , ,0,0) satisfying the minimum
-     |1|1|1|1| |
-     |x|x|0|1| |
-     |x|x|1|0| |
-6.) Again since both values satisfy the minimum, the algorithm will select the first value it encountered and place in the slot. 
-     |0|0|1|1|1|
-     |0|1|0|0|1|
-     |1|0|0|0| |
-     |1|1|1|1| |
-     |x|x|0|1| |
-     |x|x|1|0| |
-7.) If this process continues
-     Total remaining interactions: 9
-     Minimum: 3 (rounding up)
-     |0|0|1|1|1|
-     |0|1|0|0|1|
-     |1|0|0|0| |<- inserting (1) will cover the interactions (1, , , 1) not satisfying the minimum
-     |1|1|1|1| |   inserting (0) will cover the interactions (1, , , ,0) and ( ,0, , ,0) and ( , ,0, ,0) and ( , , ,0,0) satisfying the minimum
-     |x|x|0|1| |
-     |x|x|1|0| | 
-8.) In this case, the value 1 does not satisfy the minimum, but the value 0 does; therefore, 0 is placed in that slot. 
-     |0|0|1|1|1|
-     |0|1|0|0|1|
-     |1|0|0|0|0|
-     |1|1|1|1| |
-     |x|x|0|1| |
-     |x|x|1|0| |
-9.) Process continues:
-     Total remaining interactions: 5
-     Minimum: 2 
-     |0|0|1|1|1|
-     |0|1|0|0|1|
-     |1|0|0|0|0|
-     |1|1|1|1| |<- inserting (1) will cover the interactions (1, , , 1) not satisfying the minimum   
-     |x|x|0|1| |   inserting (0) will cover the interactions ( ,1, , ,0) and ( , ,1, ,0) and ( , , ,1,0) satisfying the minimum
-     |x|x|1|0| | 
+     Minimum: 3
+     |0|0|1| |<- inserting (1) will cover the interactions (0, , ,1) and ( ,0, ,1) and ( , ,1,1) satisfying the minimum
+     |0|1|0| |   inserting (0) will cover the interactions (0, , ,0) and ( ,0, ,0) and ( , ,1,0) satisfying the minimum
+     |1|0|0| |   
+     |1|1|1| |
+4.) Since both values satisfy the minimum, the algorithm will randomly select a value to place in the slot. 
+     |0|0|1|1|
+     |0|1|0| |
+     |1|0|0| |
+     |1|1|1| | 
+5.) Then it will switch over to vertical growth, adding a row to the current array
+     |0|0|1|1|
+     |0|1|0| |
+     |1|0|0| |
+     |1|1|1| | 
+     | | | | |
+6.) The row is randomly generated with values. If the interaction it covers is equal to or exceeds the average, then it will place the values in the slots. 
+     Randomly Generated Row: (0,1,1,1)      -> covers 2 interactions
+     Average coverage = (uncovered interactions)/(v^t): 8/4 = 2
+     |0|0|1|1|
+     |0|1|0| |
+     |1|0|0| |
+     |1|1|1| | 
+     | | | | |
+7.) Since the row generated satisfies the condition, it will add this row to the array. 
+     |0|0|1|1|
+     |0|1|0| |
+     |1|0|0| |
+     |1|1|1| | 
+     |0|1|1|1|
+8.) The algorithm will then jump back to horizantal growth where it left off.
+     Total remaining interactions: 7
+     Minimum: 2
+     |0|0|1|1|   
+     |0|1|0| |<- inserting (1) will cover no iteractions not satisfying the minimum
+     |1|0|0| |   inserting (0) will cover the interactions (0, , ,0) and ( ,1, ,0) and ( , ,0,0) satisfying the minimum
+     |1|1|1| |
+     |0|1|1|1|
+9.) Since only the value 0 satisfies the minimum, a 0 will be placed in that slot. 
+     |0|0|1|1|
+     |0|1|0|0|
+     |1|0|0| |
+     |1|1|1| | 
+     |0|1|1|1|
+10.) The algorithm will repeat the same sequence, moving onto the vertical growth again. 
+     Randomly Generated Row: (1,0,0,1)      -> covers 1 interactions
+     Average coverage = (uncovered interactions)/(v^t): 4/4 = 1
+     |0|0|1|1|
+     |0|1|0|0|
+     |1|0|0| |
+     |1|1|1| | 
+     |0|1|1|1|
+     | | | | |
+11.) Since the row generated satisfies the condition, it will add this row to the array
+     |0|0|1|1|
+     |0|1|0|0|
+     |1|0|0| |
+     |1|1|1| | 
+     |0|1|1|1|
+     |1|0|0|1|
+12.) Horizantal growth again...
+     Total remaining interactions: 3
+     Minimum: 1
+     |0|0|1|1|
+     |0|1|0|0|
+     |1|0|0| |<- inserting (1) will cover no iteractions not satisfying the minimum
+     |1|1|1| |   inserting (0) will cover the interactions (1, , ,0) and ( ,0, ,0) satisfying the minimum
+     |0|1|1|1|
+     |1|0|0|1|
+ 13.) Since only the value 0 satisfies the minimum, a 0 will be placed in that slot. 
+     |0|0|1|1|
+     |0|1|0|0|
+     |1|0|0|0|
+     |1|1|1| | 
+     |0|1|1|1|
+     |1|0|0|1|
+ 14.) Veritcal growth again...
+     Randomly Generated Row: (1,1,0,0)      -> covers 1 interactions
+     Average coverage = (uncovered interactions)/(v^t): 1/4 = 1
+     |0|0|1|1|      |0|0|1|1|
+     |0|1|0|0|      |0|1|0|0|
+     |1|0|0|0|      |1|0|0|0| 
+     |1|1|1| |  ->  |1|1|1| | 
+     |0|1|1|1|      |0|1|1|1|
+     |1|0|0|1|      |1|0|0|1|
+     | | | | |      |1|1|0|0|
+ 15.) At this point, all interactions are covered; therefore, any empty slots will be filled with "dont care" values, making our final array this:
+     |0|0|1|1|
+     |0|1|0|0|
+     |1|0|0|0|
+     |1|1|1|x| 
+     |0|1|1|1|
+     |1|0|0|1|
+     |1|1|0|0|
+ Some cases were not covered in this specific example:
+     a) in the case where during horizantal growth, no values satisfy the minimum, the algorithm will leave that slot empty and move to the next one until one slot is 
+     filled. 
+     b) in the case where the randomly generated row during veritcal growth does not satisfy the condition, then it would keep generating random rows until a one 
+     satisfies it. 
+     
+ Repository:
+ In this repository there is a Covering Array Validator, which returns true if an array is covering and false if it is not. In addition, there is an implementation of
+ Diagonal IPO where it reads an array in a text file and expands it with the users input of the number of columns in the starting array along with the v and t values.
+ It is important to note that both programs read from a text file with the name "test.txt" containing an array with a specific format. Please refer to the "test.txt"
+ file to see this format. Lastly, the Diagonal IPO algorithm includes the covering array validator at the end to confirm that the resulting array is covering. 
